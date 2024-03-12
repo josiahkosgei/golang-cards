@@ -14,6 +14,10 @@ type Card struct {
 	// Status of the card
 	// in: int64
 	Status int64 `json:"status"`
+
+	// Creation Date of the card
+	// in: string
+	CreatedDate int64 `json:"createdDate"`
 }
 
 type Cards []Card

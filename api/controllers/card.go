@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"api/models"
+	"cards/api/models"
 	"fmt"
 	"net/http"
 

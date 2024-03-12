@@ -1,0 +1,217 @@
+definitions:
+  controllers.CardRequest:
+    properties:
+      data:
+        allOf:
+        - $ref: '#/definitions/models.ReqAddCard'
+        description: Cards for this user
+    type: object
+  controllers.CardResponse:
+    properties:
+      data:
+        allOf:
+        - $ref: '#/definitions/models.Card'
+        description: Cards for this user
+      message:
+        description: |-
+          Message of the response
+          in: string
+        type: string
+      status:
+        description: |-
+          Status of the error
+          in: int64
+        type: integer
+    type: object
+  controllers.CardsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.Card'
+        type: array
+      message:
+        description: |-
+          Message of the response
+          in: string
+        type: string
+      status:
+        description: |-
+          Status of the error
+          in: int64
+        type: integer
+    type: object
+  controllers.HTTPError:
+    properties:
+      message:
+        description: |-
+          Message of the error
+          in: string
+        type: string
+      status:
+        description: |-
+          Status of the error
+          in: int64
+        type: integer
+    type: object
+  models.Card:
+    properties:
+      description:
+        description: |-
+          Description of the card
+          in: string
+        type: string
+      id:
+        description: |-
+          Id of the card
+          in: int64
+        type: integer
+      name:
+        description: |-
+          Name of the card
+          in: string
+        type: string
+      status:
+        description: |-
+          Status of the card
+          in: int64
+        type: integer
+    type: object
+  models.ReqAddCard:
+    properties:
+      description:
+        description: |-
+          Description of the card
+          in: string
+        maxLength: 100
+        minLength: 2
+        type: string
+      name:
+        description: |-
+          Name of the card
+          in: string
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - description
+    - name
+    type: object
+info:
+  contact: {}
+paths:
+  /cards:
+    get:
+      consumes:
+      - application/json
+      description: Get  a list of cards
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.CardsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Get  a list of cards
+      tags:
+      - /cards
+    post:
+      consumes:
+      - application/json
+      description: Create a new card item
+      parameters:
+      - description: Add a New Card Request
+        in: body
+        name: CardRequest
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.CardResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Create a card
+      tags:
+      - /cards
+  /cards/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a new card item
+      parameters:
+      - description: ID of the card to be deleted
+        in: path
+        name: cardId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Delete a card
+      tags:
+      - /cards
+    get:
+      consumes:
+      - application/json
+      description: Get details of card corresponding to the input cardId
+      parameters:
+      - description: ID of the card
+        in: path
+        name: cardId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.CardResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Get details for a given cardId
+      tags:
+      - /cards
+    put:
+      consumes:
+      - application/json
+      description: Update the card corresponding to the input cardId
+      parameters:
+      - description: ID of the card to be updated
+        in: path
+        name: cardId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.CardResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Update card identified by the given cardId
+      tags:
+      - /cards
+swagger: "2.0"
